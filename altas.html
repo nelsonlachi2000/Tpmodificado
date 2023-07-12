@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Candidato</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body >
+    <h1>Agregar Candidato al Inventario</h1>
+    
+    <form id="formulario">
+        <label for="Nombre">Nombre:</label>
+        <input type="text" id="Nombre" name="Nombre" required><br>
+
+        <label for="Apellido">Apellido:</label>
+        <input type="text" id="Apellido" name="Apellido" required><br>
+
+        <label for="Dni">Dni:</label>
+        <input type="number" id="Dni" name="Dni" required><br>
+
+        <label for="Fnacimiento">Fnacimiento:</label>
+        <input type="number" step="0.01" id="Fnacimiento" name="Fnacimiento" required><br>
+         
+        <label for="Genero">Genero:</label>
+        <input type="number" step="0.01" id="Genero" name="Genero" required><br>
+        
+        <label for="Nacionalidad">Nacionalidad:</label>
+        <input type="number" step="0.01" id="Nacionalidad" name="Nacionalidad" required><br>
+
+        <label for="Email">Email:</label>
+        <input type="number" step="0.01" id="Email" name="Email" required><br>
+
+        <button type="submit">Agregar Candidato</button>
+        <a href="index.html">Menu principal</a>
+    </form>
+
+    <script>
+        //const URL = "http://127.0.0.1:5000/"
+        //const URL = "https://nelsonlachi2023.pythonanywhere.com/"
+        // Capturamos el evento de envío del formulario
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evitamos que se envie el form por ahora
+
+            // Obtenemos los valores del formulario
+            var Nombre = document.getElementById('Nombre').value;
+            var Apellido = document.getElementById('Apellido').value;
+            var Dni = document.getElementById('Dni').value;
+            var Fnacimiento = document.getElementById('Fnacimiento').value;
+            var Genero = document.getElementById('Genero').value;
+            var Nacionalidad = document.getElementById('Nacionalidad').value;
+            var Email = document.getElementById('Email').value;
+            // Creamos un objeto con los datos del producto
+            var producto = {
+                Nombre: Nombre,
+                Apellido: Apellido,
+                Dni: Dni,
+                Fnacimiento: Fnacimiento,
+                Genero: Genero,
+                Nacionalidad: Nacionalidad,
+                Email: Email
+             };
+            console.log(producto)
+            // Realizamos la solicitud POST al servidor
+            fetch(URL + 'productos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(producto)
+            })
+                .then(function (response) {
+                    // Código para manejar la respuesta
+                    if (response.ok) {
+                        return response.json(); // Parseamos la respuesta JSON
+                    } else {
+                        // Si hubo un error, lanzar explícitamente una excepción
+                        // para ser "catcheada" más adelante
+                        throw new Error('Error al agregar el Candidato.');
+                    }
+                })
+                .then(function (data) {
+                    alert('Producto agregado correctamente.');
+                    //Limpiamos el formulario.
+                    document.getElementById('Nombre').value = "";
+                    document.getElementById('Apellido').value = "";
+                    document.getElementById('Dni').value = "";
+                    document.getElementById('Fnacimiento').value = "";
+                    document.getElementById('Genero').value = "";
+                    document.getElementById('Nacionalidad').value = "";
+                    document.getElementById('Email').value = "";
+
+
+
+                })
+                .catch(function (error) {
+                    // Código para manejar errores
+                    alert('Error al agregar el producto.');
+                });
+        })
+    </script>
+</body>
+
+</html>
